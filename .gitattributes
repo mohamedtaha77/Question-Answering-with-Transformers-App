@@ -1,0 +1,2 @@
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+qa_model_distilbert-base-uncased/model.safetensors filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,11 @@
+{
+  "model": "roberta-base",
+  "metrics": {
+    "eval_runtime": 57.6057,
+    "eval_samples_per_second": 187.308,
+    "eval_steps_per_second": 11.718,
+    "epoch": 2.0,
+    "exact_match": 85.96972563859981,
+    "f1": 92.08548815741908
+  }
+}

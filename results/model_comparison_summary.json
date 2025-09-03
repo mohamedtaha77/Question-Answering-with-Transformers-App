@@ -1,0 +1,26 @@
+[
+  {
+    "model":"roberta-base",
+    "exact_match":85.9697256386,
+    "f1":92.0854881574,
+    "load_time_s":0.587,
+    "checkpoint_size_MB":477.9,
+    "avg_pipeline_score":0.5973
+  },
+  {
+    "model":"bert-base-uncased",
+    "exact_match":81.0122989593,
+    "f1":88.3568180795,
+    "load_time_s":0.361,
+    "checkpoint_size_MB":416.3,
+    "avg_pipeline_score":0.5393333333
+  },
+  {
+    "model":"distilbert-base-uncased",
+    "exact_match":77.1523178808,
+    "f1":85.3652932551,
+    "load_time_s":0.326,
+    "checkpoint_size_MB":254.1,
+    "avg_pipeline_score":0.6992666667
+  }
+]

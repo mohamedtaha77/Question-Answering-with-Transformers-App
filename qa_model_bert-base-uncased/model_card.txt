@@ -1,0 +1,2 @@
+Model: bert-base-uncased
+Notes: Fine-tuned on SQuAD v1.1 for extractive QA

@@ -1,0 +1,11 @@
+{
+  "model": "distilbert-base-uncased",
+  "metrics": {
+    "eval_runtime": 30.9092,
+    "eval_samples_per_second": 348.893,
+    "eval_steps_per_second": 21.806,
+    "epoch": 2.0,
+    "exact_match": 77.1523178807947,
+    "f1": 85.3652932551452
+  }
+}
