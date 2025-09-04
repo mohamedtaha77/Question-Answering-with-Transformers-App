@@ -73,12 +73,51 @@ st.markdown("### 🔍 Ask a Question")
 context = st.text_area("📄 Context", height=200, key="context", placeholder="Paste or load a paragraph...")
 question = st.text_input("❓ Question", key="question", placeholder="Type your question here...")
 
+# ======== EDITED RESULT SECTION ONLY ========
 if st.button("Get Answer") and context.strip() and question.strip():
     with st.spinner("Generating answer..."):
         result = qa_pipeline(question=question, context=context)
-        st.success("✅ Answer generated!")
-        st.write(f"**Answer:** {result['answer']}")
-        st.write(f"**Confidence Score:** {round(result['score'] * 100, 2)}%")
+        ans_text = result["answer"]
+        conf_pct = result["score"] * 100
+
+    col_a, col_b = st.columns([2, 1], gap="medium")
+
+    with col_a:
+        st.markdown(
+            f"""
+            <div style="
+                background:#0f5132;
+                border:1px solid #0f5132;
+                color:#d1e7dd;
+                padding:14px 16px;
+                border-radius:10px;
+                line-height:1.5;
+            ">
+                <div style="opacity:.9; font-weight:600; margin-bottom:6px;">Answer</div>
+                <div style="font-size:1.05rem; font-weight:600;">{ans_text}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    with col_b:
+        st.markdown(
+            f"""
+            <div style="
+                background:#052e16;
+                border:1px solid #14532d;
+                color:#d1e7dd;
+                padding:14px 16px;
+                border-radius:10px;
+                text-align:center;
+            ">
+                <div style="opacity:.9; font-weight:600; margin-bottom:6px;">Confidence</div>
+                <div style="font-size:1.3rem; font-weight:800;">{conf_pct:.2f}%</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+# ======== END EDITED SECTION ========
 
 # ========== Metrics ==========
 st.markdown("---")
