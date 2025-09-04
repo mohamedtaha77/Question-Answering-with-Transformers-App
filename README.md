@@ -4,9 +4,9 @@ This is a clean and interactive **Question Answering (QA) App** built with **Str
 It extracts answers from a given paragraph using **Transformer-based models**.
 
 Three models are implemented and fully deployed in the UI:
-- **DistilBERT (HuggingFace Transformers)**
-- **BERT Base Uncased**
-- **BERT Large Uncased**
+- **DistilBERT**
+- **BERT**
+- **RoBERTa**
 
 ---
 
