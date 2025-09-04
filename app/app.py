@@ -12,17 +12,53 @@ st.set_page_config(page_title="🧠 QA App - Elevvo Task 6", layout="centered")
 st.title("🧠 Question Answering with Transformers")
 st.subheader("Fine-tuned DistilBERT | Elevvo Internship — Task 6")
 
-# ========== Load QA Pipeline ==========
-model_path = os.path.abspath("./qa_model_distilbert-base-uncased")
+# ---------- Model selector (NEW) ----------
+# Map visible names to local folders (edit if you rename folders)
+MODEL_PATHS = {
+    "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
+    "BERT (base-uncased)": "./qa_model_bert-base-uncased",
+    "RoBERTa (base)": "./qa_model_roberta-base",
+}
+
+# keep previously selected model across reruns
+if "selected_model_key" not in st.session_state:
+    st.session_state.selected_model_key = "DistilBERT (base-uncased)"
+
+st.markdown("### 🧩 Choose Model")
+selected_model_key = st.selectbox(
+    "Pick a fine-tuned model to run:",
+    options=list(MODEL_PATHS.keys()),
+    index=list(MODEL_PATHS.keys()).index(st.session_state.selected_model_key)
+)
+st.session_state.selected_model_key = selected_model_key
+
+# Resolve absolute model path and device
+model_path = os.path.abspath(MODEL_PATHS[selected_model_key])
 device = 0 if torch.cuda.is_available() else -1
 
-@st.cache_resource
-def load_pipeline(model_path):
+st.caption(f"Using **{selected_model_key}** from `{model_path}` | Device: "
+           f"{'CUDA' if device == 0 else 'CPU'}")
+
+# ========== Load QA Pipeline ==========
+@st.cache_resource(show_spinner=False)
+def load_pipeline(model_path: str, device: int):
+    """
+    Cache one pipeline per (model_path, device).
+    """
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, local_files_only=True)
     model = AutoModelForQuestionAnswering.from_pretrained(model_path, local_files_only=True)
     return pipeline("question-answering", model=model, tokenizer=tokenizer, device=device)
 
-qa_pipeline = load_pipeline(model_path)
+# try to load; surface a helpful error if model files are missing
+qa_pipeline = None
+try:
+    if not os.path.isdir(model_path):
+        raise FileNotFoundError(f"Model folder not found: {model_path}")
+    qa_pipeline = load_pipeline(model_path, device)
+    st.success("Model loaded successfully ✅")
+except Exception as e:
+    st.error(f"⚠️ Could not load the selected model. {e}")
+    st.stop()
 
 # ========== Test Sample ==========
 with st.expander("🧪 Try a Sample (Click to Fill)"):
@@ -49,7 +85,7 @@ if st.button("Get Answer") and context.strip() and question.strip():
 st.markdown("---")
 st.markdown("## 📊 Model Performance Summary")
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_comparison_data():
     csv_path = os.path.abspath("./results/model_comparison_summary.csv")
     return pd.read_csv(csv_path)
@@ -93,6 +129,6 @@ except Exception as e:
 # ========== Footer ==========
 st.markdown("---")
 st.markdown(
-    "<div style='text-align: center;'>Made with ❤️ for Elevvo Internship Task 1</div>",
+    "<div style='text-align: center;'>Made with ❤️ for Elevvo Internship Task 6</div>",
     unsafe_allow_html=True
 )
