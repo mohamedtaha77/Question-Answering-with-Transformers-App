@@ -8,9 +8,8 @@ import matplotlib.pyplot as plt
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering, pipeline
 
 # ========== Config ==========
-st.set_page_config(page_title="🧠 QA App - Elevvo Task 6", layout="centered")
+st.set_page_config(page_title="🧠 QA App", layout="centered")
 st.title("🧠 Question Answering with Transformers")
-st.subheader("Fine-tuned DistilBERT | Elevvo Internship — Task 6")
 
 # ---------- Model selector (NEW) ----------
 # Map visible names to local folders (edit if you rename folders)
@@ -36,8 +35,8 @@ st.session_state.selected_model_key = selected_model_key
 model_path = os.path.abspath(MODEL_PATHS[selected_model_key])
 device = 0 if torch.cuda.is_available() else -1
 
-st.caption(f"Using **{selected_model_key}** from `{model_path}` | Device: "
-           f"{'CUDA' if device == 0 else 'CPU'}")
+# st.caption(f"Using **{selected_model_key}** from `{model_path}` | Device: "
+#            f"{'CUDA' if device == 0 else 'CPU'}")
 
 # ========== Load QA Pipeline ==========
 @st.cache_resource(show_spinner=False)
