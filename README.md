@@ -91,8 +91,6 @@ To deploy on **Streamlit Cloud**:
 
 ## 📓 Notebook Workflow
 
-> [`qa_*_train_and_save.py`](./)
-
 Due to resource constraints, the training for each model was conducted in **separate notebooks**, ensuring stability and avoiding runtime crashes. Each notebook follows the same workflow:
 
 - Load pre-trained model from HuggingFace (`distilbert-base-uncased`, `bert-base-uncased`, `bert-large-uncased`)
@@ -102,9 +100,3 @@ Due to resource constraints, the training for each model was conducted in **sepa
 - Load for inference using the QA pipeline
 
 ---
-
-## ⚠️ Final Remarks
-
-This task demonstrates the power of pre-trained Transformer models for QA. While all models deliver impressive performance, **BERT Large** offers superior accuracy at the cost of speed and size. The app provides flexibility to explore all three models, showcasing trade-offs between inference time and model complexity. Future improvements could include domain-specific finetuning and support for long contexts.
-
-Web app link: [https://question-answering-with-transformers-77.streamlit.app/](https://question-answering-with-transformers-77.streamlit.app/)
