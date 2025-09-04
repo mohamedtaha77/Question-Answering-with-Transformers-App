@@ -1,4 +1,4 @@
-# ❓ Question Answering Web App - Elevvo NLP Internship
+# ❓ Question Answering Web App
 
 This is a clean and interactive **Question Answering (QA) App** built with **Streamlit**.  
 It extracts answers from a given paragraph using **Transformer-based models**.
@@ -32,14 +32,19 @@ Try the app live here:
 
 ## 📁 Files Included
 
-| File | Description |
-|------|-------------|
-| `app.py` | Streamlit web app for transformer-based QA |
-| `qa_distilbert_train_and_save.py` | Notebook for fine-tuning and saving DistilBERT model |
-| `qa_bertbase_train_and_save.py` | Notebook for fine-tuning and saving BERT Base model |
-| `qa_bertlarge_train_and_save.py` | Notebook for fine-tuning and saving BERT Large model |
-| `requirements.txt` | All required Python packages |
-| `model/` | Contains saved model files and tokenizer checkpoints |
+| File/Folder | Description |
+|-------------|-------------|
+| `app/` | Contains `app.py`, the Streamlit web app for transformer-based QA |
+| `notebooks/` | Jupyter notebooks for training and saving each transformer QA model |
+| `qa_model_bert-base-uncased/` | Saved model and tokenizer files for fine-tuned BERT Base |
+| `qa_model_distilbert-base-uncased/` | Saved model and tokenizer files for fine-tuned DistilBERT |
+| `qa_model_roberta-base/` | Saved model and tokenizer files for fine-tuned RoBERTa |
+| `results/` | Evaluation results and visualizations |
+| `scripts/` | Python scripts for preprocessing, training, or utilities |
+| `.gitattributes` | Git configuration file for handling line endings |
+| `README.md` | Project documentation and overview |
+| `requirements.txt` | List of required Python packages for setup |
+
 
 ---
 
