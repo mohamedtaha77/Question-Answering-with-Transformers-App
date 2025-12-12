@@ -17,6 +17,7 @@ MODEL_PATHS = {
     "RoBERTa": "./qa_model_roberta-base",
 }
 
+# Check if 'selected_model_key' exists in session state, if not, set default value
 if "selected_model_key" not in st.session_state:
     st.session_state.selected_model_key = "DistilBERT"
 
@@ -65,27 +66,19 @@ with st.expander("🧪 Try a Sample (Click to Fill)"):
             {"context": "The human brain is the central organ of the nervous system, responsible for controlling thoughts, memory, emotions, and motor skills.", "question": "What is the human brain responsible for?"},
             {"context": "Beijing is the capital of China, known for its historical sites like the Forbidden City and Tiananmen Square.", "question": "What is the capital of China?"},
             {"context": "The Mona Lisa, painted by Leonardo da Vinci, is a famous Renaissance artwork displayed in the Louvre Museum in Paris.", "question": "Who painted the Mona Lisa?"},
-            {"context": "The moon orbits the Earth once every 27.3 days, completing a full orbit in that time.", "question": "How long does it take for the moon to orbit the Earth?"},
-            {"context": "The Amazon River, which flows through the Amazon rainforest, is the second-longest river in the world.", "question": "What is the second-longest river in the world?"},
-            {"context": "The Sahara Desert is the largest hot desert in the world, spanning over 3.6 million square miles.", "question": "What is the largest hot desert in the world?"},
-            {"context": "The Statue of Liberty, a symbol of freedom, is located in New York Harbor in the United States.", "question": "Where is the Statue of Liberty located?"},
-            {"context": "The Pacific Ring of Fire is a region around the Pacific Ocean that is prone to earthquakes and volcanic eruptions.", "question": "What is the region around the Pacific Ocean known for earthquakes and volcanic eruptions?"},
-            {"context": "The Colosseum in Rome, Italy, is one of the largest amphitheaters ever built and could hold up to 80,000 spectators.", "question": "What is the largest amphitheater ever built?"},
-            {"context": "The Great Barrier Reef, located off the coast of Queensland, Australia, is the world's largest coral reef system.", "question": "Where is the world's largest coral reef system?"},
-            {"context": "The Louvre Museum in Paris, France, is home to some of the most famous art pieces in the world, including the Mona Lisa.", "question": "Where is the Louvre Museum located?"},
-            {"context": "The Taj Mahal, a mausoleum built by Mughal Emperor Shah Jahan in memory of his wife, is located in Agra, India.", "question": "Where is the Taj Mahal located?"},
-            {"context": "The Great Barrier Reef is known for its incredible biodiversity, including over 1,500 species of fish.", "question": "What is the Great Barrier Reef known for?"},
-            {"context": "The Pyramids of Giza, located in Egypt, are one of the Seven Wonders of the Ancient World.", "question": "Where are the Pyramids of Giza located?"},
-            {"context": "The Mount Kilimanjaro in Tanzania is the highest mountain in Africa, standing at 19,341 feet.", "question": "What is the highest mountain in Africa?"}
-                    ]
+            {"context": "The moon orbits the Earth once every 27.3 days, completing a full orbit in that time.", "question": "How long does it take for the moon to orbit the Earth?"}
+        ]
 
-        # Select 1 random sample
-        selected_sample = random.choice(sample_data)
+        # Select 10 random samples from the dataset
+        selected_samples = random.sample(sample_data, 10)
+
+        # Pick one random sample from the 10
+        selected_sample = random.choice(selected_samples)
 
         # Store the randomly selected sample in session state
         st.session_state.context = selected_sample["context"]
         st.session_state.question = selected_sample["question"]
-        
+
 # ========== Input ==========
 st.markdown("### 🔍 Ask a Question")
 context = st.text_area("📄 Context", height=200, key="context", value=st.session_state.context, placeholder="Paste or load a paragraph...")
