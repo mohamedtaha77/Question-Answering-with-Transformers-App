@@ -18,7 +18,7 @@ MODEL_PATHS = {
 }
 
 if "selected_model_key" not in st.session_state:
-    st.session_state.selected_model_key = "DistilBERT (base-uncased)"
+    st.session_state.selected_model_key = "DistilBERT"
 
 st.markdown("### 🧩 Choose Model")
 selected_model_key = st.selectbox(
