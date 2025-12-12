@@ -153,14 +153,17 @@ try:
     st.markdown("### 📊 Comparison Chart")
 
     # Plotting a comparison chart for model metrics
-    fig, ax = plt.subplots(figsize=(10, 5))
+
+    fig, ax = plt.subplots(figsize=(12, 6))
     df_plot = df.set_index("Model")[["Eval F1", "Eval EM", "Samples/s", "Steps/s"]]
     df_plot.plot(kind="bar", ax=ax, colormap="Set2")
     ax.set_title("QA Model Performance Comparison")
     ax.set_ylabel("Score")
-    ax.set_ylim([0, 100])
+    ax.set_ylim([0, max(df["Samples/s"].max(), 100)])
     ax.legend(loc='lower right')
     st.pyplot(fig)
+    plt.xticks(rotation=45, ha='right')
+
 
     with st.expander("🧾 Raw Table"):
         st.dataframe(df, use_container_width=True)
