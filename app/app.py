@@ -11,8 +11,7 @@ from transformers import AutoTokenizer, AutoModelForQuestionAnswering, pipeline
 st.set_page_config(page_title="🧠 QA App", layout="centered")
 st.title("🧠 Question Answering with Transformers")
 
-# ---------- Model selector (NEW) ----------
-# Map visible names to local folders
+# ---------- Model selector ----------
 MODEL_PATHS = {
     "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
     "BERT (base-uncased)": "./qa_model_bert-base-uncased",
@@ -36,9 +35,6 @@ device = 0 if torch.cuda.is_available() else -1
 # ========== Load QA Pipeline ==========
 @st.cache_resource(show_spinner=False)
 def load_pipeline(model_path: str, device: int):
-    """
-    Cache one pipeline per (model_path, device).
-    """
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, local_files_only=True)
     model = AutoModelForQuestionAnswering.from_pretrained(model_path, local_files_only=True)
     return pipeline("question-answering", model=model, tokenizer=tokenizer, device=device)
@@ -67,7 +63,7 @@ st.markdown("### 🔍 Ask a Question")
 context = st.text_area("📄 Context", height=200, key="context", placeholder="Paste or load a paragraph...")
 question = st.text_input("❓ Question", key="question", placeholder="Type your question here...")
 
-# ======== EDITED RESULT SECTION ONLY ========
+# ======== Result Section ========
 if st.button("Get Answer") and context.strip() and question.strip():
     with st.spinner("Generating answer..."):
         result = qa_pipeline(question=question, context=context)
@@ -111,7 +107,6 @@ if st.button("Get Answer") and context.strip() and question.strip():
             """,
             unsafe_allow_html=True,
         )
-# ======== END EDITED SECTION ========
 
 # ========== Metrics ==========
 st.markdown("---")
