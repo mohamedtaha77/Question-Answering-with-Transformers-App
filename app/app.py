@@ -167,6 +167,6 @@ except Exception as e:
 # ========== Footer ==========
 st.markdown("---")
 st.markdown(
-    "<div style='text-align: center;'>Made with ❤️ for Elevvo Internship Task 6</div>",
+    "<div style='text-align: center;'>Made with ❤️</div>",
     unsafe_allow_html=True
 )
