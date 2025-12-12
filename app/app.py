@@ -12,14 +12,13 @@ st.set_page_config(page_title="🧠 QA App", layout="centered")
 st.title("🧠 Question Answering with Transformers")
 
 # ---------- Model selector (NEW) ----------
-# Map visible names to local folders (edit if you rename folders)
+# Map visible names to local folders
 MODEL_PATHS = {
     "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
     "BERT (base-uncased)": "./qa_model_bert-base-uncased",
     "RoBERTa (base)": "./qa_model_roberta-base",
 }
 
-# keep previously selected model across reruns
 if "selected_model_key" not in st.session_state:
     st.session_state.selected_model_key = "DistilBERT (base-uncased)"
 
@@ -31,12 +30,8 @@ selected_model_key = st.selectbox(
 )
 st.session_state.selected_model_key = selected_model_key
 
-# Resolve absolute model path and device
 model_path = os.path.abspath(MODEL_PATHS[selected_model_key])
 device = 0 if torch.cuda.is_available() else -1
-
-# st.caption(f"Using **{selected_model_key}** from `{model_path}` | Device: "
-#            f"{'CUDA' if device == 0 else 'CPU'}")
 
 # ========== Load QA Pipeline ==========
 @st.cache_resource(show_spinner=False)
@@ -48,7 +43,6 @@ def load_pipeline(model_path: str, device: int):
     model = AutoModelForQuestionAnswering.from_pretrained(model_path, local_files_only=True)
     return pipeline("question-answering", model=model, tokenizer=tokenizer, device=device)
 
-# try to load; surface a helpful error if model files are missing
 qa_pipeline = None
 try:
     if not os.path.isdir(model_path):
@@ -134,23 +128,30 @@ try:
     def get_best(df, col, ascending=False):
         return df.sort_values(by=col, ascending=ascending).iloc[0]
 
-    best_f1 = get_best(df, 'f1')
-    best_em = get_best(df, 'exact_match')
-    best_time = get_best(df, 'load_time_s', ascending=True)
-    best_score = get_best(df, 'avg_pipeline_score')
+    best_loss = get_best(df, 'Eval Loss')
+    best_f1 = get_best(df, 'Eval F1')
+    best_em = get_best(df, 'Eval EM')
+    best_time = get_best(df, 'Runtime (s)', ascending=True)
+    best_samples = get_best(df, 'Samples/s', ascending=False)
+    best_steps = get_best(df, 'Steps/s', ascending=False)
+    best_epoch = get_best(df, 'Epoch')
 
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("🔹 Highest F1 Score", best_f1["model"], f"{best_f1['f1']:.2f}")
-        st.metric("🚀 Fastest Load Time", best_time["model"], f"{best_time['load_time_s']}s")
+        st.metric("🔹 Lowest Eval Loss", best_loss["Model"], f"{best_loss['Eval Loss']:.2f}")
+        st.metric("🚀 Fastest Runtime", best_time["Model"], f"{best_time['Runtime (s)']}s")
+        st.metric("🎯 Highest F1 Score", best_f1["Model"], f"{best_f1['Eval F1']:.2f}")
+
     with col2:
-        st.metric("🎯 Highest Exact Match", best_em["model"], f"{best_em['exact_match']:.2f}")
-        st.metric("⚡ Most Efficient (Avg. Score)", best_score["model"], f"{best_score['avg_pipeline_score']:.2f}")
+        st.metric("⚡ Highest Exact Match", best_em["Model"], f"{best_em['Eval EM']:.2f}")
+        st.metric("⚡ Best Samples/s", best_samples["Model"], f"{best_samples['Samples/s']:.2f}")
+        st.metric("⚡ Best Steps/s", best_steps["Model"], f"{best_steps['Steps/s']:.2f}")
+        st.metric("⚡ Best Epoch", best_epoch["Model"], f"{best_epoch['Epoch']:.2f}")
 
     st.markdown("### 📊 Comparison Chart")
 
     fig, ax = plt.subplots(figsize=(10, 5))
-    df_plot = df.set_index("model")[["f1", "exact_match", "avg_pipeline_score"]]
+    df_plot = df.set_index("Model")[["Eval F1", "Eval EM", "Samples/s", "Steps/s"]]
     df_plot.plot(kind="bar", ax=ax, colormap="Set2")
     ax.set_title("QA Model Performance Comparison")
     ax.set_ylabel("Score")
