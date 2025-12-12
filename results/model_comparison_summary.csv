@@ -1,5 +1,4 @@
-model,exact_match,f1,load_time_s,checkpoint_size_MB,avg_pipeline_score
-roberta-base,85.96972563859981,92.08548815741908,0.587,477.9,0.5973
-bert-base-uncased,81.01229895931883,88.35681807945764,0.361,416.3,0.5393333333333333
-distilbert-base-uncased,77.1523178807947,85.3652932551452,0.326,254.1,0.6992666666666666
- 
+Model,Eval Loss,Eval F1,Eval EM,Runtime (s),Samples/s,Steps/s,Epoch
+bert-base-uncased,1.01,88.09,80.59,105.85,99.86,6.25,2.00
+distilbert-base-uncased,1.08,85.29,77.01,72.14,146.53,9.16,2.00
+roberta-base,0.84,91.86,85.50,98.69,107.09,6.69,2.00
