@@ -143,7 +143,6 @@ try:
         st.metric("⚡ Highest Exact Match", best_em["Model"], f"{best_em['Eval EM']:.2f}")
         st.metric("⚡ Best Samples/s", best_samples["Model"], f"{best_samples['Samples/s']:.2f}")
         st.metric("⚡ Best Steps/s", best_steps["Model"], f"{best_steps['Steps/s']:.2f}")
-        st.metric("⚡ Best Epoch", best_epoch["Model"], f"{best_epoch['Epoch']:.2f}")
 
     st.markdown("### 📊 Comparison Chart")
 
