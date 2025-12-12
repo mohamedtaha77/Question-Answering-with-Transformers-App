@@ -4,24 +4,22 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering, pipeline
+import random
 
 # ========== Config ==========
 st.set_page_config(page_title="🧠 QA App", layout="centered")
 st.title("🧠 Question Answering with Transformers")
 
 # ---------- Model selector ----------
-# Map visible names to local folders
 MODEL_PATHS = {
     "DistilBERT": "./qa_model_distilbert-base-uncased",
     "BERT": "./qa_model_bert-base-uncased",
     "RoBERTa": "./qa_model_roberta-base",
 }
 
-# Check if 'selected_model_key' exists in session state, if not, set default value
 if "selected_model_key" not in st.session_state:
     st.session_state.selected_model_key = "DistilBERT"
 
-# Make sure selected_model_key exists in MODEL_PATHS before using it
 if st.session_state.selected_model_key not in MODEL_PATHS:
     st.session_state.selected_model_key = "DistilBERT"  # Default to DistilBERT if key doesn't exist
 
@@ -35,8 +33,6 @@ st.session_state.selected_model_key = selected_model_key
 
 model_path = os.path.abspath(MODEL_PATHS[selected_model_key])
 device = 0 if torch.cuda.is_available() else -1
-
-
 
 # ========== Load QA Pipeline ==========
 @st.cache_resource(show_spinner=False)
@@ -173,7 +169,6 @@ try:
     st.markdown("### 📊 Comparison Chart")
 
     # Plotting a comparison chart for model metrics
-
     fig, ax = plt.subplots(figsize=(12, 6))
     df_plot = df.set_index("Model")[["Eval F1", "Eval EM", "Samples/s", "Steps/s"]]
     df_plot.plot(kind="bar", ax=ax, colormap="Set2")
