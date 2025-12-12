@@ -1,5 +1,3 @@
-# app.py
-
 import os
 import torch
 import streamlit as st
@@ -12,6 +10,7 @@ st.set_page_config(page_title="🧠 QA App", layout="centered")
 st.title("🧠 Question Answering with Transformers")
 
 # ---------- Model selector ----------
+# Map visible names to local folders
 MODEL_PATHS = {
     "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
     "BERT (base-uncased)": "./qa_model_bert-base-uncased",
@@ -114,6 +113,7 @@ st.markdown("## 📊 Model Performance Summary")
 
 @st.cache_data(show_spinner=False)
 def load_comparison_data():
+    # Replace with the correct CSV path to include the correct metrics in the CSV
     csv_path = os.path.abspath("./results/model_comparison_summary.csv")
     return pd.read_csv(csv_path)
 
@@ -123,6 +123,7 @@ try:
     def get_best(df, col, ascending=False):
         return df.sort_values(by=col, ascending=ascending).iloc[0]
 
+    # Collecting the metrics from the CSV
     best_loss = get_best(df, 'Eval Loss')
     best_f1 = get_best(df, 'Eval F1')
     best_em = get_best(df, 'Eval EM')
@@ -131,6 +132,7 @@ try:
     best_steps = get_best(df, 'Steps/s', ascending=False)
     best_epoch = get_best(df, 'Epoch')
 
+    # Displaying the metrics on the Streamlit app
     col1, col2 = st.columns(2)
     with col1:
         st.metric("🔹 Lowest Eval Loss", best_loss["Model"], f"{best_loss['Eval Loss']:.2f}")
@@ -145,6 +147,7 @@ try:
 
     st.markdown("### 📊 Comparison Chart")
 
+    # Plotting a comparison chart for model metrics
     fig, ax = plt.subplots(figsize=(10, 5))
     df_plot = df.set_index("Model")[["Eval F1", "Eval EM", "Samples/s", "Steps/s"]]
     df_plot.plot(kind="bar", ax=ax, colormap="Set2")
