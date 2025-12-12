@@ -12,9 +12,9 @@ st.title("🧠 Question Answering with Transformers")
 # ---------- Model selector ----------
 # Map visible names to local folders
 MODEL_PATHS = {
-    "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
-    "BERT (base-uncased)": "./qa_model_bert-base-uncased",
-    "RoBERTa (base)": "./qa_model_roberta-base",
+    "DistilBERT": "./qa_model_distilbert-base-uncased",
+    "BERT": "./qa_model_bert-base-uncased",
+    "RoBERTa": "./qa_model_roberta-base",
 }
 
 if "selected_model_key" not in st.session_state:
@@ -130,7 +130,6 @@ try:
     best_time = get_best(df, 'Runtime (s)', ascending=True)
     best_samples = get_best(df, 'Samples/s', ascending=False)
     best_steps = get_best(df, 'Steps/s', ascending=False)
-    best_epoch = get_best(df, 'Epoch')
 
     # Displaying the metrics on the Streamlit app
     col1, col2 = st.columns(2)
