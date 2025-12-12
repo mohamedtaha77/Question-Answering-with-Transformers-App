@@ -54,7 +54,7 @@ except Exception as e:
 # ========== Test Sample ==========
 with st.expander("🧪 Try a Sample (Click to Fill)"):
     if st.button("Load Example"):
-        # Adding 10 mock context-question pairs to simulate random selection
+        # Define 10 context-question pairs
         sample_data = [
             {"context": "The Nile is the longest river in the world. It flows through Egypt and Sudan.", "question": "Where does the Nile flow?"},
             {"context": "Mount Everest is the tallest mountain in the world. Located in the Himalayas.", "question": "What is the height of Mount Everest?"},
@@ -68,22 +68,21 @@ with st.expander("🧪 Try a Sample (Click to Fill)"):
             {"context": "The moon orbits the Earth, making one full orbit every 27.3 days.", "question": "How long does it take for the moon to orbit the Earth?"}
         ]
 
-        # Select 10 random samples
-        selected_samples = random.sample(sample_data, 10)
+        # Select 1 random sample
+        selected_sample = random.choice(sample_data)
 
-        # Store the randomly selected samples in session state
-        st.session_state.samples = selected_samples
+        # Store the randomly selected sample in session state
+        st.session_state.context = selected_sample["context"]
+        st.session_state.question = selected_sample["question"]
 
-        # Display the selected samples
-        for idx, sample in enumerate(st.session_state.samples):
-            st.write(f"**Sample {idx+1}:**")
-            st.write(f"**Context:** {sample['context']}")
-            st.write(f"**Question:** {sample['question']}")
+        # Display the selected sample's context and question
+        st.write(f"**Context:** {st.session_state.context}")
+        st.write(f"**Question:** {st.session_state.question}")
 
 # ========== Input ==========
 st.markdown("### 🔍 Ask a Question")
-context = st.text_area("📄 Context", height=200, key="context", placeholder="Paste or load a paragraph...")
-question = st.text_input("❓ Question", key="question", placeholder="Type your question here...")
+context = st.text_area("📄 Context", height=200, key="context", value=st.session_state.context, placeholder="Paste or load a paragraph...")
+question = st.text_input("❓ Question", key="question", value=st.session_state.question, placeholder="Type your question here...")
 
 # ======== Result Section ========
 if st.button("Get Answer") and context.strip() and question.strip():
@@ -136,7 +135,6 @@ st.markdown("## 📊 Model Performance Summary")
 
 @st.cache_data(show_spinner=False)
 def load_comparison_data():
-    # Replace with the correct CSV path to include the correct metrics in the CSV
     csv_path = os.path.abspath("./results/model_comparison_summary.csv")
     return pd.read_csv(csv_path)
 
@@ -146,7 +144,6 @@ try:
     def get_best(df, col, ascending=False):
         return df.sort_values(by=col, ascending=ascending).iloc[0]
 
-    # Collecting the metrics from the CSV
     best_loss = get_best(df, 'Eval Loss')
     best_f1 = get_best(df, 'Eval F1')
     best_em = get_best(df, 'Eval EM')
