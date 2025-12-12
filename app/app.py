@@ -12,13 +12,13 @@ st.title("🧠 Question Answering with Transformers")
 # ---------- Model selector ----------
 # Map visible names to local folders
 MODEL_PATHS = {
-    "DistilBERT": "./qa_model_distilbert-base-uncased",
-    "BERT": "./qa_model_bert-base-uncased",
-    "RoBERTa": "./qa_model_roberta-base",
+    "DistilBERT (base-uncased)": "./qa_model_distilbert-base-uncased",
+    "BERT (base-uncased)": "./qa_model_bert-base-uncased",
+    "RoBERTa (base)": "./qa_model_roberta-base",
 }
 
 if "selected_model_key" not in st.session_state:
-    st.session_state.selected_model_key = "DistilBERT"
+    st.session_state.selected_model_key = "DistilBERT (base-uncased)"
 
 st.markdown("### 🧩 Choose Model")
 selected_model_key = st.selectbox(
