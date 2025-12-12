@@ -17,7 +17,7 @@ MODEL_PATHS = {
     "RoBERTa": "./qa_model_roberta-base",
 }
 
-# Check if 'selected_model_key' exists in session state, if not, set default value
+# Initialize session state if not present
 if "selected_model_key" not in st.session_state:
     st.session_state.selected_model_key = "DistilBERT"
 
@@ -69,15 +69,18 @@ with st.expander("🧪 Try a Sample (Click to Fill)"):
             {"context": "The moon orbits the Earth once every 27.3 days, completing a full orbit in that time.", "question": "How long does it take for the moon to orbit the Earth?"}
         ]
 
-        # Select 10 random samples from the dataset
-        selected_samples = random.sample(sample_data, 10)
-
-        # Pick one random sample from the 10
-        selected_sample = random.choice(selected_samples)
+        # Select 1 random sample
+        selected_sample = random.choice(sample_data)
 
         # Store the randomly selected sample in session state
         st.session_state.context = selected_sample["context"]
         st.session_state.question = selected_sample["question"]
+
+# Ensure session_state.context and session_state.question are initialized
+if 'context' not in st.session_state:
+    st.session_state.context = ""
+if 'question' not in st.session_state:
+    st.session_state.question = ""
 
 # ========== Input ==========
 st.markdown("### 🔍 Ask a Question")
