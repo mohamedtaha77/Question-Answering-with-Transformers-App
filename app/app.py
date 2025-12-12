@@ -58,11 +58,31 @@ except Exception as e:
 # ========== Test Sample ==========
 with st.expander("🧪 Try a Sample (Click to Fill)"):
     if st.button("Load Example"):
-        st.session_state.context = (
-            "The Nile is the longest river in the world. It flows through Egypt and Sudan. "
-            "It has been an important source of life and transportation for thousands of years."
-        )
-        st.session_state.question = "Where does the Nile flow?"
+        # Adding 10 mock context-question pairs to simulate random selection
+        sample_data = [
+            {"context": "The Nile is the longest river in the world. It flows through Egypt and Sudan.", "question": "Where does the Nile flow?"},
+            {"context": "Mount Everest is the tallest mountain in the world. Located in the Himalayas.", "question": "What is the height of Mount Everest?"},
+            {"context": "The Great Wall of China is one of the most famous landmarks in the world.", "question": "How long is the Great Wall of China?"},
+            {"context": "The Eiffel Tower is one of the most recognizable structures in the world.", "question": "Where is the Eiffel Tower located?"},
+            {"context": "The Amazon rainforest is located in South America.", "question": "Where is the Amazon rainforest?"},
+            {"context": "The Pacific Ocean is the largest and deepest ocean on Earth.", "question": "What is the largest ocean?"},
+            {"context": "The human brain is the central organ of the nervous system.", "question": "What is the human brain responsible for?"},
+            {"context": "Beijing is the capital of China.", "question": "What is the capital of China?"},
+            {"context": "The Mona Lisa is a famous painting by Leonardo da Vinci.", "question": "Who painted the Mona Lisa?"},
+            {"context": "The moon orbits the Earth, making one full orbit every 27.3 days.", "question": "How long does it take for the moon to orbit the Earth?"}
+        ]
+
+        # Select 10 random samples
+        selected_samples = random.sample(sample_data, 10)
+
+        # Store the randomly selected samples in session state
+        st.session_state.samples = selected_samples
+
+        # Display the selected samples
+        for idx, sample in enumerate(st.session_state.samples):
+            st.write(f"**Sample {idx+1}:**")
+            st.write(f"**Context:** {sample['context']}")
+            st.write(f"**Question:** {sample['question']}")
 
 # ========== Input ==========
 st.markdown("### 🔍 Ask a Question")
